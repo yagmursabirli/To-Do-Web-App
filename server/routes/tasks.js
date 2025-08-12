@@ -68,22 +68,24 @@ router.put('/:id', async (req, res, next) => {
     }
 })
 
-//partial update - status
-router.patch('/:id/status', async(req, res, next) => {
+// partial update - status
+router.patch('/:id/status', async (req, res, next) => {
     try {
-        const status = req.body
+        const { status } = req.body;
+
+
         const updatedStatus = await prisma.task.update({
-            where: {id: req.params.id}, 
+            where: { id: req.params.id },
             data: {
-                status,
+                status, 
                 completedAt: status === 'completed' ? new Date() : null
             }
-        })
-        res.json(updatedStatus)
+        });
+        res.json(updatedStatus);
     } catch (e) {
-        next(e)
+        next(e);
     }
-})
+});
 
 //delete a single task
 router.delete('/:id', async (req, res, next) => {

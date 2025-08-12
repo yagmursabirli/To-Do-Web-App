@@ -8,16 +8,16 @@ import theme from './assets/theme'
 import { ThemeProvider } from '@mui/material/styles'
 import { Box } from '@mui/material'
 import CssBaseline from '@mui/material/CssBaseline';
+import Buttons from './components/Buttons'
+import Cards from './components/Cards'
+import Home from './pages/Home'
 
 function App() {
   return (
     <>
     
     <ThemeProvider theme={theme}> 
-      <CssBaseline />
-      <Box sx={{backgroundColor: 'background.default', minHeight: '100vh'}}>
-      <Navbar/>
-      </Box>
+     <Home/>
     </ThemeProvider>
     
     </>

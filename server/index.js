@@ -27,7 +27,6 @@ app.get('/health', async (_req, res) => {
 app.use('/api/tasks', taskRouter)
 
 app.use((err, _req, res, _next) => {
-  // Prisma "record not found" => P2025
   if (err?.code === 'P2025') {
     return res.status(404).json({ error: 'Record not found' })
   }

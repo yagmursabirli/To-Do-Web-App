@@ -9,7 +9,7 @@ const theme = createTheme({
             main: '#FFF'
         },
         background:{
-            default:'#dcfcd4',
+            default:'#CFE1B9',
             cards: '#cfdbcc',
         }
     },

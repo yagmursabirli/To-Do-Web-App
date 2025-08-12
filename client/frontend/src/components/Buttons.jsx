@@ -1,0 +1,44 @@
+import React from 'react'
+import { Button } from '@mui/material'
+import {Box} from '@mui/material'
+import AddIcon from '@mui/icons-material/Add';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+
+function Buttons({onOpenForm}) {
+
+   
+  return (
+    <Box sx={{
+        display: "flex",
+        justifyContent: "flex-end",
+        gap: "10px",
+        marginTop:"15px",
+        marginRight: "13px",
+        padding: "5px"
+        
+    }}>
+        <Box sx={{
+            display: "flex",
+            alignItems: "center"
+        }}>
+            
+        <Button variant="contained" onClick={onOpenForm} sx={{
+            color: "white",
+            fonstSize: "300"
+        }}><AddIcon sx={{ fontSize: "25px"}}/> Add New Task</Button>
+        </Box>
+
+        <Box sx={{
+            display: "flex",
+            alignItems: "center",
+        }}>
+         <Button variant="contained" sx={{
+            color: "white",
+            fonstSize: "300"
+         }}><DeleteOutlineIcon sx={{ fontSize: "23px"}}/> Delete All Tasks</Button>
+         </Box>
+    </Box>
+  )
+}
+
+export default Buttons

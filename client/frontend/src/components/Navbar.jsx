@@ -25,7 +25,8 @@ function Navbar() {
                         sm:"35px",
                         md: "40px",
                         lg: "43px"
-                    }
+                    },
+                    fontWeight: "300"
                     }}>
                       
                     To Do App
@@ -38,7 +39,8 @@ function Navbar() {
                         md: "20px",
                         lg: "20px"
                 },
-                marginBottom: "0px"
+                marginBottom: "0px",
+                fontWeight: "200"
             }}>
                 Plan your tasks...
             </Typography>
