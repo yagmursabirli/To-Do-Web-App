@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { Box } from "@mui/material"; 
 import Cards from "./Cards";
 
-export default function TaskList() {
-    const [tasks, setTasks] = useState([]);
+export default function TaskList({tasks, setTasks}) {
+    
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -30,22 +30,22 @@ export default function TaskList() {
     if (error) return <p>Hata: {error}</p>;
 
     return (
-        <Box 
-            sx={{ 
-                display: "flex", 
-                flexWrap: "wrap"
-            }}
-        >
-            {tasks.map(task => (
-                <Cards
-                    key={task.id}
-                    task={task}
-                    onDelete={(id) => handleDelete(id)}
-                    onStatusChange={(id, newStatus) => handleStatusChange(id, newStatus)}
-                />
-            ))}
-        </Box>
-    );
+ <Box 
+sx={{ 
+display: "flex", 
+ flexWrap: "wrap"
+ }}
+       >
+            {tasks.map(task => (
+                <Cards
+                    key={task.id}
+                   task={task}
+                    onDelete={handleDelete}
+                    onStatusChange={handleStatusChange}
+                />
+            ))}
+        </Box>
+    );
 
    
     function handleDelete(id) {
@@ -71,4 +71,11 @@ export default function TaskList() {
             })
             .catch(err => console.error(err));
     }
+
+  
+
 }
+
+
+
+
