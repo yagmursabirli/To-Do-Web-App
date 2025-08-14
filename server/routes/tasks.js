@@ -100,7 +100,14 @@ router.delete('/:id', async (req, res, next) => {
 })
 
 // delete all
-
+router.delete('/', async (req, res, next) => {
+  try {
+   const result = await prisma.task.deleteMany();
+    res.status(200).json({ message: 'all tasks deleted', ...result})
+  } catch (error) {
+    next(error);
+  }
+})
 
 
 

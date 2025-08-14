@@ -4,7 +4,7 @@ import {Box} from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
-function Buttons({onOpenForm}) {
+function Buttons({onOpenForm, onDeleteAll}) {
 
    
   return (
@@ -32,7 +32,7 @@ function Buttons({onOpenForm}) {
             display: "flex",
             alignItems: "center",
         }}>
-         <Button variant="contained" sx={{
+         <Button variant="contained" onClick={onDeleteAll} sx={{
             color: "white",
             fonstSize: "300"
          }}><DeleteOutlineIcon sx={{ fontSize: "23px"}}/> Delete All Tasks</Button>
