@@ -53,7 +53,8 @@ return (
     backgroundColor: "#f0fced",
     display: 'flex',
     flexDirection: 'column',
-    marginX: '20px'
+    marginX: {xs: 'auto', sm: 'auto', md:'20px', lg: '20px'}
+    
    }}
    variant="outlined"
    >
@@ -68,7 +69,7 @@ return (
     action={
       // edit and delete buttons
       <Stack direction="row" spacing={1}>
-        <IconButton onClick={() => onUpdate?.(task.id)}>
+        <IconButton onClick={() => onUpdate?.(task)}>
           <EditIcon/>
         </IconButton>
 

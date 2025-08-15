@@ -5,12 +5,7 @@ import Navbar from '../components/Navbar'
 import Buttons from '../components/Buttons'
 import TaskList from '../components/TaskList'
 
-//takvim
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-//adaptee
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'; 
-//adapter, localizationProvider'a verilir adapte olması için
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import FormDialog from '../components/FormDialog'
 
 //status and priority options
 const STATUS_OPTIONS = ['pending', 'in_progress', 'completed'];
@@ -19,13 +14,16 @@ const PRIORITY_OPTIONS = ['low', 'medium', 'high'];
 function Home() {
 
   const [tasks, setTasks] = useState([]);
+  const [editingTask, setEditingTask] = useState(null);
 
-  //dialogu açıp kapatmak için add new task butonunda
+  //dialogu açıp kapatmak için add new task butonunda 
   const [open, setOpen] = useState();
   //form her defasında temiz gelsin diye 
   const handleOpen = () => {
+    //formun edit için değil yeni task için açıldığını söyler
+    setEditingTask(null);
     setNewTask({
-       title: '',
+    title: '',
     description: '',
     status: 'pending',
     priority: 'medium',
@@ -33,7 +31,24 @@ function Home() {
     });
     setOpen(true);
   }
-  const handleClose = () => setOpen(false);
+
+  //edit için dialogu açma
+  const handleOpenForEdit = (task) => {
+    setEditingTask(task);
+
+    const taskWDateObject = {
+      ...task, 
+      dueDate: task.dueDate ? new Date(task.dueDate) : null,
+    };
+    setNewTask(taskWDateObject);
+    setOpen(true);
+  }
+
+
+  const handleClose = () => {
+    setOpen(false);
+    setEditingTask(null);
+  };
 
   //new task
   const [newTask, setNewTask] = useState({
@@ -120,10 +135,20 @@ function Home() {
     }))
   }
 
-  //save functionality
+  //save functionality for new task and update
   async function handleSave(e) {
     e.preventDefault();
     try {
+      if (editingTask) {
+        const res = await fetch(`http://localhost:5000/api/tasks/${editingTask.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json'},
+          body: JSON.stringify(newTask),
+        });
+        if (!res.ok) throw new Error('error while updating new to do');
+        const updatedTask = await res.json();
+        setTasks(prev => prev.map(t => (t.id === updatedTask.id ? updatedTask : t)));
+      } else{
       const res = await fetch('http://localhost:5000/api/tasks', {
         method: 'POST',
         headers: {
@@ -137,7 +162,7 @@ function Home() {
       const addedTask = await res.json();
 
       setTasks((prevTasks) => [addedTask, ...prevTasks]);
-
+    }
       handleClose();
     } catch (error) {
       console.error('error while adding a new to do', error);
@@ -158,88 +183,18 @@ function Home() {
     .catch(err => console.error(err));
   }
 
+  
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline/>
       <Box sx={{backgroundColor: 'background.default', minHeight: '100vh'}} >
       <Navbar/>
       <Buttons onOpenForm={handleOpen} onDeleteAll={handleDeleteAll}/>
-      <TaskList tasks={tasks} setTasks={setTasks} onDelete={handleDelete} onStatusChange={handleStatusChange} />
-      
-      { /* add new task part */}
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>New To Do</DialogTitle>
-        <DialogContent>
-          <form action="">
-            {/* title and description */}
-            <Box sx={{display: "flex", flexDirection: "column", gap:2, marginY: 3}}>
-              <TextField
-              name='title'
-              id='title'
-              label='Title of To Do'
-              value={newTask.title}
-              onChange={handleChange}
-              />
-              <TextField
-              name='description'
-              id='description'
-              label='Description'
-              value={newTask.description}
-              onChange={handleChange}
-              /> 
-            </Box>
-            {/* status, priority and due date */}
-            <Box sx={{display: "grid", gridTemplateColumns: {xs: "1fr", sm: "1fr 1fr 1fr"},
-          gap: 2, alignItems: "start"}}>
-              <FormControl fullWidth>
-                <InputLabel>Status</InputLabel>
-                <Select
-                  name="status"
-                  label="status"
-                  value={newTask.status}
-                  onChange={handleChange}
-                >
-                  {STATUS_OPTIONS.map((status) => (
-                    <MenuItem key={status} value={status}>
-                      {status.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase())}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-
-              <FormControl fullWidth>
-                <InputLabel>Priority</InputLabel>
-                <Select
-                name='priority'
-                label='priority'
-                value={newTask.priority}
-                onChange={handleChange}
-                >
-                  {PRIORITY_OPTIONS.map((priority) => (
-                    <MenuItem key={priority} value={priority}>
-                      {priority.charAt(0).toUpperCase() + priority.slice(1)}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                label="Due Date"
-                value={newTask.dueDate}
-                onChange={handleDateChange}
-                />
-              </LocalizationProvider>
-            </Box>
-          </form>
-        </DialogContent>
-
-        {/* cancel ve save butonları */}
-        <DialogActions>
-                  <Button onClick={handleClose}>Cancel</Button>
-                  <Button  onClick={handleSave}>Save</Button>
-        </DialogActions>
-      </Dialog>
+      <TaskList tasks={tasks} setTasks={setTasks} onDelete={handleDelete} onStatusChange={handleStatusChange} onUpdate={handleOpenForEdit} />
+ 
+      { /* add new task and update a taskpart */}
+      <FormDialog tasks={newTask} open={open} onClose={handleClose} onChange={handleChange} onDateChange={handleDateChange} onSave={handleSave} isEditing={!!editingTask}/>
       </Box>
     </ThemeProvider>
   )

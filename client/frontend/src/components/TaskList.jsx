@@ -2,7 +2,7 @@ import React from 'react'
 import {Box} from '@mui/material'
 import Cards from '../components/Cards'
 
-function TaskList({tasks, onDelete, onStatusChange}) {
+function TaskList({tasks, onDelete, onStatusChange, onUpdate}) {
   return (
     <Box sx={{ display: "flex", flexWrap:"wrap"}}>
         {tasks.map(task =>(
@@ -11,6 +11,7 @@ function TaskList({tasks, onDelete, onStatusChange}) {
                 task = {task}
                 onDelete={onDelete}
                 onStatusChange={onStatusChange}
+                onUpdate={onUpdate}
             />
         ))}
     </Box>

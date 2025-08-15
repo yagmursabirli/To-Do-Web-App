@@ -10,11 +10,12 @@ function Buttons({onOpenForm, onDeleteAll}) {
   return (
     <Box sx={{
         display: "flex",
-        justifyContent: "flex-end",
+        justifyContent: {md: "flex-end", sm: 'center', xs: 'center', lg: 'flex-end'},
         gap: "10px",
         marginTop:"15px",
-        marginRight: "13px",
-        padding: "5px"
+        marginRight: {md:"13px", xs: 'auto'},
+        padding: "5px",
+        
         
     }}>
         <Box sx={{

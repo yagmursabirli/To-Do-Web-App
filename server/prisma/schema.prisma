@@ -1,14 +1,13 @@
 // server/prisma/schema.prisma
 
-generator client{
+generator client {
   provider = "prisma-client-js"
 }
 
-datasource db{
+datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
-
 
 enum Status {
   pending
@@ -16,22 +15,20 @@ enum Status {
   completed
 }
 
-enum Priority{
+enum Priority {
   low
   medium
   high
 }
 
-
 model task {
-  id String @id @default(uuid())
-  title String
+  id          String    @id @default(uuid())
+  title       String
   description String?
-  status Status @default(pending)
-  priority Priority @default(medium)
-  dueDate DateTime?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  status      Status    @default(pending)
+  priority    Priority  @default(medium)
+  dueDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   completedAt DateTime?
-
 }

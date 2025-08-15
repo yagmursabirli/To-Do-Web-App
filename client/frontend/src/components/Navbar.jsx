@@ -40,9 +40,10 @@ function Navbar() {
                         lg: "20px"
                 },
                 marginBottom: "0px",
-                fontWeight: "200"
+                fontWeight: "200",
+                marginRight: {xs: '10px', sm: '10px', md:'15px', lg: '15px'}
             }}>
-                Plan your tasks...
+                plan your tasks
             </Typography>
           </StyledToolbar>
         </AppBar>
