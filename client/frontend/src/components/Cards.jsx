@@ -45,7 +45,12 @@ export default function Cards({ task, onDelete, onStatusChange, onUpdate}) {
   }
 return (
    <Card sx={{
-    width: 340,
+    width: {
+      lg: 340,
+      md: 319,
+      sm: 319,
+      xs: 319
+    },
     minHeight: 280,
     m: 2,
     p: 0,
@@ -53,7 +58,7 @@ return (
     backgroundColor: "#f0fced",
     display: 'flex',
     flexDirection: 'column',
-    marginX: {xs: 'auto', sm: 'auto', md:'20px', lg: '20px'}
+    marginX: {xs: 'auto', sm: 'auto', md:'11px', lg: '20px'}
     
    }}
    variant="outlined"

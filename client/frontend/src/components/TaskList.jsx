@@ -1,21 +1,21 @@
-import React from 'react'
-import {Box} from '@mui/material'
-import Cards from '../components/Cards'
+import React from "react";
+import { Box } from "@mui/material";
+import Cards from "../components/Cards";
 
-function TaskList({tasks, onDelete, onStatusChange, onUpdate}) {
+function TaskList({ tasks, onDelete, onStatusChange, onUpdate }) {
   return (
-    <Box sx={{ display: "flex", flexWrap:"wrap"}}>
-        {tasks.map(task =>(
-            <Cards
-                key = {task.id}
-                task = {task}
-                onDelete={onDelete}
-                onStatusChange={onStatusChange}
-                onUpdate={onUpdate}
-            />
-        ))}
+    <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+      {tasks.map((task) => (
+        <Cards
+          key={task.id}
+          task={task}
+          onDelete={onDelete}
+          onStatusChange={onStatusChange}
+          onUpdate={onUpdate}
+        />
+      ))}
     </Box>
-  )
+  );
 }
 
-export default TaskList
+export default TaskList;
